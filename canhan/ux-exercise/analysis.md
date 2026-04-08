@@ -148,4 +148,59 @@ Không có thông tin nội bộ nào bị tiết lộ
 
 ---
 
+## Data Flywheel — AI Moni
+
+### As-is (vòng lặp hiện tại — yếu)
+
+```mermaid
+flowchart LR
+    A([User dùng Moni]) --> B[Moni trả lời\nphân loại · báo cáo · gợi ý]
+    B --> C{Thu signal}
+    C -->|Explicit\n👍/👎 không nhất quán| D[Signal thưa, không đủ]
+    C -->|Correction\nKHÔNG CÓ| E[❌ Phân loại sai\nkhông ai sửa]
+    C -->|Implicit\nkhông lưu session| F[❌ Mất dữ liệu\nsau mỗi phiên]
+    D --> G[Mô hình không\nhọc được gì mới]
+    E --> G
+    F --> G
+    G -->|Gợi ý vẫn generic| A
+```
+
+### To-be (vòng lặp đề xuất — khoẻ)
+
+```mermaid
+flowchart LR
+    A([User dùng Moni\nnhiều hơn]) --> B[Moni trả lời\npersonalized]
+
+    B --> C1[Implicit signal\nthời gian · bỏ qua · click]
+    B --> C2[Explicit signal\n👍/👎 mọi response]
+    B --> C3[Correction signal\nUser sửa danh mục sai]
+
+    C1 --> D[AI học từ\ndata riêng từng user]
+    C2 --> D
+    C3 --> D
+
+    D --> E[Profile tài chính\ncá nhân hoá]
+    E --> F[Gợi ý sát thực tế\nPhân loại chính xác hơn]
+    F -->|Sản phẩm tốt hơn\n→ user quay lại nhiều hơn| A
+```
+
+### Để flywheel quay được — cần thêm
+
+```mermaid
+flowchart TD
+    P1[Thêm nút Sửa danh mục\ndưới mỗi giao dịch] --> S1[Correction signal]
+    P2[Lưu lịch sử chat\ngiữa các session] --> S2[Longitudinal user profile]
+    P3[Gắn 👍/👎\nvào mọi response] --> S3[Consistent explicit signal]
+    P4[Kết nối open banking\nTechcombank, VCB...] --> S4[Nhiều data hơn]
+
+    S1 --> R[AI học được chỗ sai\ncụ thể → cải thiện nhanh]
+    S2 --> R
+    S3 --> R
+    S4 --> R
+
+    R --> O[Flywheel quay\nMoni ngày càng tốt hơn]
+```
+
+---
+
 *Bài tập UX — Ngày 5 — VinUni A20 — AI Thực Chiến · 2026*
